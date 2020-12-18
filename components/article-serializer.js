@@ -36,5 +36,11 @@ const contentBlockToElement = (contentBlock, idx) => {
 };
 
 export default function ArticleSerializer({ article }) {
-  return <div>{article.fields.content.content.map(contentBlockToElement)}</div>;
+  return (
+    <>
+      {article && (
+        <div>{article.fields.content.content.map(contentBlockToElement)}</div>
+      )}
+    </>
+  );
 }
