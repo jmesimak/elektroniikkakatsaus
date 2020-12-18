@@ -1,17 +1,26 @@
+import Typography from '@material-ui/core/Typography';
+import CardMedia from '@material-ui/core/CardMedia';
+
+import styled from 'styled-components';
+
+const ScaledImg = styled.img`
+  max-width: 100%;
+`
+
 const constructParagraph = (paragraphBlock, index) => {
   const spans = [];
   paragraphBlock.content.map((paragraphContentBlock, idx) => {
     switch (paragraphContentBlock.nodeType) {
       case "text":
-        spans.push(<span key={idx}>{paragraphContentBlock.value}</span>);
+        spans.push(<Typography display="inline" key={idx}>{paragraphContentBlock.value}</Typography>);
         break;
       case "hyperlink":
         spans.push(
-          <span key={idx}>
+          <Typography display="inline" key={idx}>
             <a href={paragraphContentBlock.data.uri} target="_blank">
               {paragraphContentBlock.content[0].value}
             </a>
-          </span>
+          </Typography>
         );
         break;
       default:
@@ -21,7 +30,7 @@ const constructParagraph = (paragraphBlock, index) => {
         );
     }
   });
-  return <p key={index}>{spans}</p>;
+  return <div style={{ marginBottom: '8px' }} key={index}>{spans}</div>;
 };
 
 const contentBlockToElement = (contentBlock, idx, article) => {
@@ -31,7 +40,7 @@ const contentBlockToElement = (contentBlock, idx, article) => {
     case "heading-2":
       return <h3 key={idx}>{contentBlock.content[0].value}</h3>;
     case "embedded-asset-block":
-      return <img src={article.images[contentBlock.data.target.sys.id]} />
+      return <CardMedia><ScaledImg src={article.images[contentBlock.data.target.sys.id]} /></CardMedia>
     default:
       console.log("Unknown block type", contentBlock)
       return null;
@@ -42,7 +51,7 @@ export default function ArticleSerializer({ article }) {
   return (
     <>
       {article && (
-        <div>{article.fields.content.content.map((contentBlock, idx) => contentBlockToElement(contentBlock, idx, article))}</div>
+        <div style={{ padding: '8px'}}>{article.fields.content.content.map((contentBlock, idx) => contentBlockToElement(contentBlock, idx, article))}</div>
       )}
     </>
   );
