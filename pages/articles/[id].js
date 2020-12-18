@@ -8,7 +8,7 @@ import ArticleSerializer from "../../components/article-serializer";
 import config from "../../config";
 
 const PaddedPaper = styled(Paper)`
-  padding: 8px;
+  padding: 16px;
 `
 
 export default function Article({ article }) {
@@ -22,11 +22,9 @@ export default function Article({ article }) {
           </Link>
         </h1>
       </Grid>
-      <Grid item xs={12}>
-        <Paper elevation={2}>
-          <h2>{title}</h2>
-        </Paper>
+      <Grid item xs={12} lg={8}>
         <PaddedPaper elevation={2}>
+          <h2>{title}</h2>
           <ArticleSerializer article={article} />
         </PaddedPaper>
       </Grid>

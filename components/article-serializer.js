@@ -4,7 +4,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import styled from 'styled-components';
 
 const ScaledImg = styled.img`
-  max-width: 100%;
+  width: 100%;
+  margin: 0 0 8px 0;
 `
 
 const constructParagraph = (paragraphBlock, index) => {
@@ -40,7 +41,11 @@ const contentBlockToElement = (contentBlock, idx, article) => {
     case "heading-2":
       return <h3 key={idx}>{contentBlock.content[0].value}</h3>;
     case "embedded-asset-block":
-      return <CardMedia><ScaledImg src={article.images[contentBlock.data.target.sys.id]} /></CardMedia>
+      return (
+        <div style={{width: '100%'}}>
+        <ScaledImg src={article.images[contentBlock.data.target.sys.id]} />
+        </div>
+      )
     default:
       console.log("Unknown block type", contentBlock)
       return null;
@@ -51,7 +56,7 @@ export default function ArticleSerializer({ article }) {
   return (
     <>
       {article && (
-        <div style={{ padding: '8px'}}>{article.fields.content.content.map((contentBlock, idx) => contentBlockToElement(contentBlock, idx, article))}</div>
+        <div>{article.fields.content.content.map((contentBlock, idx) => contentBlockToElement(contentBlock, idx, article))}</div>
       )}
     </>
   );
