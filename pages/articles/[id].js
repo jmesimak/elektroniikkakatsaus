@@ -1,20 +1,35 @@
 import axios from "axios";
 import Link from "next/link";
 import get from "lodash/get";
+import styled from "styled-components";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 import ArticleSerializer from "../../components/article-serializer";
 import config from "../../config";
 
+const PaddedPaper = styled(Paper)`
+  padding: 8px;
+`
+
 export default function Article({ article }) {
-  const title = get(article, 'fields.title', '')
+  const title = get(article, "fields.title", "");
   return (
     <>
-      <h1>
-        <Link as={`/`} href="/">
-          <a>Elektroniikkakatsaus</a>
-        </Link>
-      </h1>
-      <h2>{title}</h2>
-      <ArticleSerializer article={article} />
+      <Grid item xs={12}>
+        <h1>
+          <Link as={`/`} href="/">
+            <a>Elektroniikkakatsaus</a>
+          </Link>
+        </h1>
+      </Grid>
+      <Grid item xs={12}>
+        <Paper elevation={2}>
+          <h2>{title}</h2>
+        </Paper>
+        <PaddedPaper elevation={2}>
+          <ArticleSerializer article={article} />
+        </PaddedPaper>
+      </Grid>
     </>
   );
 }
@@ -28,21 +43,25 @@ export async function getStaticProps({ params }) {
     (contentfulItem) => contentfulItem.sys.id === params.id
   );
 
-  const imageBlocks = get(article, 'fields.content.content', []).filter(block => block.nodeType === 'embedded-asset-block')
-  let images = {}
+  const imageBlocks = get(article, "fields.content.content", []).filter(
+    (block) => block.nodeType === "embedded-asset-block"
+  );
+  let images = {};
 
   for (const imgBlock of imageBlocks) {
-    const imgId = imgBlock.data.target.sys.id
-    const { data } = await axios.get(`https://cdn.contentful.com/spaces/${config.CONTENTFUL_SPACE_ID}/environments/master/assets/${imgId}?access_token=${config.CONTENTFUL_DELIVERY_TOKEN}`)
-    images[imageBlocks[0].data.target.sys.id] = `https:${data.fields.file.url}`
+    const imgId = imgBlock.data.target.sys.id;
+    const { data } = await axios.get(
+      `https://cdn.contentful.com/spaces/${config.CONTENTFUL_SPACE_ID}/environments/master/assets/${imgId}?access_token=${config.CONTENTFUL_DELIVERY_TOKEN}`
+    );
+    images[imageBlocks[0].data.target.sys.id] = `https:${data.fields.file.url}`;
   }
 
   return {
     props: {
       article: {
         ...article,
-        images
-      }
+        images,
+      },
     },
   };
 }
