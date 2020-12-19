@@ -44,6 +44,7 @@ export async function getStaticProps({ params }) {
   const imageBlocks = get(article, "fields.content.content", []).filter(
     (block) => block.nodeType === "embedded-asset-block"
   );
+
   let images = {};
 
   for (const imgBlock of imageBlocks) {
@@ -51,7 +52,7 @@ export async function getStaticProps({ params }) {
     const { data } = await axios.get(
       `https://cdn.contentful.com/spaces/${config.CONTENTFUL_SPACE_ID}/environments/master/assets/${imgId}?access_token=${config.CONTENTFUL_DELIVERY_TOKEN}`
     );
-    images[imageBlocks[0].data.target.sys.id] = `https:${data.fields.file.url}`;
+    images[imgId] = `https:${data.fields.file.url}`;
   }
 
   return {
