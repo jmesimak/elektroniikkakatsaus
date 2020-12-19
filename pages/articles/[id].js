@@ -6,9 +6,14 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import ArticleSerializer from "../../components/article-serializer";
 import config from "../../config";
+import { Typography } from "@material-ui/core";
 
 const PaddedPaper = styled(Paper)`
   padding: 16px;
+`
+
+const ArticleTitle = styled(Typography)`
+  font-size: 2rem;
 `
 
 export default function Article({ article }) {
@@ -24,7 +29,7 @@ export default function Article({ article }) {
       </Grid>
       <Grid item xs={12} lg={8}>
         <PaddedPaper elevation={2}>
-          <h2>{title}</h2>
+          <ArticleTitle variant="h2">{title}</ArticleTitle>
           <ArticleSerializer article={article} />
         </PaddedPaper>
       </Grid>

@@ -11,21 +11,33 @@ const MainArea = styled(Paper)`
 `;
 
 const Title = styled.h1`
-  margin-top: 0;
-`
+  margin: 0 0 8px 8px;
+  font-weight: 400;
+  letter-spacing: 1px;
+`;
+
+const Nav = styled.div`
+  width: 100%;
+  background-color: black;
+  color: white;
+`;
+
+const NavLink = styled.a`
+  margin: 8px 0 8px 8px;
+`;
 
 export default function Home({ frontPage }) {
   const { topHeadlines } = frontPage;
   const topHeadlineTitles = topHeadlines.map((topHeadline) => {
     return (
       <h3>
-      <Link
-        as={`/articles/${topHeadline.sys.id}`}
-        href="/articles/[id]"
-        key={topHeadline.sys.id}
-      >
-        <a>{topHeadline.fields.title}</a>
-      </Link>
+        <Link
+          as={`/articles/${topHeadline.sys.id}`}
+          href="/articles/[id]"
+          key={topHeadline.sys.id}
+        >
+          <a>{topHeadline.fields.title}</a>
+        </Link>
       </h3>
     );
   });
@@ -35,12 +47,22 @@ export default function Home({ frontPage }) {
         <title>Elektroniikkakatsaus</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Grid item xs={12}>
+      <Grid item xs={12} lg={8}>
         <MainArea>
           <Title>Elektroniikkakatsaus</Title>
-          <h2>Artikkelit</h2>
+          <Nav>
+            <Link href="#">
+              <NavLink>Artikkelit</NavLink>
+            </Link>
+          </Nav>
+
           {topHeadlineTitles}
         </MainArea>
+      </Grid>
+      <Grid item lg={4}>
+        <Paper>
+          Foo
+        </Paper>
       </Grid>
     </>
   );
@@ -58,6 +80,8 @@ export async function getStaticProps() {
   const topHeadlineIds = frontPage.fields.topList.map(
     (topListArticle) => topListArticle.sys.id
   );
+
+  console.log(topHeadlineIds)
 
   const topHeadlines = data.items.filter((contentfulItem) =>
     topHeadlineIds.includes(contentfulItem.sys.id)

@@ -47,7 +47,7 @@ const contentBlockToElement = (contentBlock, idx, article) => {
         </div>
       );
     case "heading-2":
-      return <h3 key={idx}>{contentBlock.content[0].value}</h3>;
+      return <Typography variant="h3" key={idx}>{contentBlock.content[0].value}</Typography>;
     case "embedded-asset-block":
       return (
         <div key={idx} style={{ width: "100%" }}>
