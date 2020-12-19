@@ -9,28 +9,31 @@ import config from "../../config";
 import { Typography } from "@material-ui/core";
 
 const PaddedPaper = styled(Paper)`
-  padding: 16px;
-`
+  padding: 8px 16px;
+`;
 
 const ArticleTitle = styled(Typography)`
   font-size: 2rem;
-`
+`;
+
+const Top = styled(Grid)`
+  min-height: 24px;
+  background-color: #9146ff;
+`;
 
 export default function Article({ article }) {
   const title = get(article, "fields.title", "");
   return (
     <>
-      <Grid item xs={12}>
-        <h1>
-          <Link as={`/`} href="/">
-            <a>Elektroniikkakatsaus</a>
-          </Link>
-        </h1>
-      </Grid>
       <Grid item xs={12} lg={8}>
         <PaddedPaper elevation={2}>
           <ArticleTitle variant="h2">{title}</ArticleTitle>
           <ArticleSerializer article={article} />
+        </PaddedPaper>
+      </Grid>
+      <Grid item lg={4}>
+        <PaddedPaper elevation={2}>
+          <Typography>Moro</Typography>
         </PaddedPaper>
       </Grid>
     </>

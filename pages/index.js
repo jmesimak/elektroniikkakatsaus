@@ -5,32 +5,13 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import config from "../config";
 import styled from "styled-components";
-
-const MainArea = styled(Paper)`
-  height: 100%;
-`;
-
-const Title = styled.h1`
-  margin: 0 0 8px 8px;
-  font-weight: 400;
-  letter-spacing: 1px;
-`;
-
-const Nav = styled.div`
-  width: 100%;
-  background-color: black;
-  color: white;
-`;
-
-const NavLink = styled.a`
-  margin: 8px 0 8px 8px;
-`;
+import { Typography } from "@material-ui/core";
 
 export default function Home({ frontPage }) {
   const { topHeadlines } = frontPage;
   const topHeadlineTitles = topHeadlines.map((topHeadline) => {
     return (
-      <h3>
+      <Typography variant="h3">
         <Link
           as={`/articles/${topHeadline.sys.id}`}
           href="/articles/[id]"
@@ -38,7 +19,7 @@ export default function Home({ frontPage }) {
         >
           <a>{topHeadline.fields.title}</a>
         </Link>
-      </h3>
+      </Typography>
     );
   });
   return (
@@ -48,16 +29,9 @@ export default function Home({ frontPage }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Grid item xs={12} lg={8}>
-        <MainArea>
-          <Title>Elektroniikkakatsaus</Title>
-          <Nav>
-            <Link href="#">
-              <NavLink>Artikkelit</NavLink>
-            </Link>
-          </Nav>
-
+        <Paper style={{ paddingLeft: '16px'}}>
           {topHeadlineTitles}
-        </MainArea>
+        </Paper>
       </Grid>
       <Grid item lg={4}>
         <Paper>
