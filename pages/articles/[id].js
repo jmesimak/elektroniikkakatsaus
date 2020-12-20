@@ -83,7 +83,7 @@ export async function getStaticPaths() {
       contentfulItem.contentType.sys.id === "frontPage"
   );
 
-  const topHeadlineIds = frontPage.fields.topList.map(
+  const topHeadlineIds = frontPage.fields.article.map(
     (topListArticle) => topListArticle.sys.id
   );
 
